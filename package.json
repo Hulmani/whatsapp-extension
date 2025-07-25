@@ -1,0 +1,10 @@
+{
+"name": "whatsapp-chat-analyzer",
+"version": "1.0.0",
+"description": "Chrome extension for WhatsApp chat analysis",
+"scripts": {
+"build": "echo 'No build step configured yet'"
+},
+"author": "",
+"license": "MIT"
+}

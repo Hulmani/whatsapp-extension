@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WhatsApp Chat Analyzer</title>
+  <script type="module" src="popup.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 320px;
+      padding: 12px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 12px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h2>WhatsApp Chat Analyzer</h2>
+  <button id="scanBtn">Scan This Chat</button>
+  <button id="syncBtn" disabled>Sync to Cloud</button>
+  <div id="status"></div>
+</body>
+</html>
