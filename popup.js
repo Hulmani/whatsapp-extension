@@ -19,7 +19,7 @@ statusDiv.textContent = "Failed to scan chat.";
 return;
 }
 currentChatMessages = results[0].result;
-statusDiv.textContent = Found ${currentChatMessages.length} messages.;
+statusDiv.textContent = Found `${currentChatMessages.length} messages.`;
 syncBtn.disabled = false;
 });
 });
