@@ -4,29 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WhatsApp Chat Analyzer</title>
+   <link rel="stylesheet" href="popup.css">
   <script type="module" src="popup.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      width: 320px;
-      padding: 12px;
-    }
-    button {
-      padding: 8px 16px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    #status {
-      margin-top: 12px;
-      font-style: italic;
-      color: #555;
-    }
-  </style>
+
 </head>
 <body>
+    <button id="theme-toggle" class="btn secondary" style="float:right; margin-bottom:10px; width:32px; height:32px; display:flex; align-items:center; justify-content:center;" aria-label="Toggle theme">
+  <span id="theme-icon">
+    <!-- Default: Moon SVG -->
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M17.5 13.5A7.5 7.5 0 0 1 8.5 4.5a7.5 7.5 0 1 0 9 9z" fill="#25d366"/></svg>
+  </span>
+</button>
   <h2>WhatsApp Chat Analyzer</h2>
   <button id="scanBtn">Scan This Chat</button>
   <button id="syncBtn" disabled>Sync to Cloud</button>
   <div id="status"></div>
+
+  <div id="preview-container" class="hidden">
+  <h3>📄 Preview of Scanned Messages</h3>
+  <ul id="preview-list" class="preview-list"></ul>
+  </div>
+
+<button id="toggle-preview-btn" class="btn secondary" disabled>Preview</button>
+<p id="disclaimer" class="disclaimer hidden">
+  Only messages currently visible in the chat are scanned.
+</p>
+
 </body>
 </html>
