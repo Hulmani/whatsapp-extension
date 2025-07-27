@@ -40,7 +40,7 @@ return;
 currentChatMessages = results[0].result;
 statusDiv.textContent = `Found ${currentChatMessages.length} messages.`;
 
-// statusDiv.textContent = `Found ${results[0].result}`;
+// statusDiv.textContent = `Raw scan results ${results}`;
 
 updatePreview(currentChatMessages);
 syncBtn.disabled = false;
@@ -52,21 +52,58 @@ statusDiv.textContent = "Sync to cloud: yet to be implemented.";
 });
 
 // Function to scrape WhatsApp chat messages
+// function scrapeWhatsAppChat() {
+//     try {
+//         // Select all spans with these classes (message text)
+//         const textElems = document.querySelectorAll('span._ao3e.selectable-text.copyable-text');
+//         document.getElementById("status").textContent = `Found ${messageElems.length} messages.`;
+//         const messages = [];
+//         textElems.forEach((elem) => {
+//              if (elem.innerText && elem.innerText.trim() !== "") {
+//                 messages.push(elem.innerText.trim());
+//             }
+//         });
+//         return messages;
+//     } catch (e) {
+//         return [];
+//     }
+// }
+
 function scrapeWhatsAppChat() {
-    try {
-        // Select all spans with these classes (message text)
-        const textElems = document.querySelectorAll('span._ao3e.selectable-text.copyable-text');
-        const messages = [];
-        textElems.forEach((elem) => {
-             if (elem.innerText && elem.innerText.trim() !== "") {
-                messages.push(elem.innerText.trim());
-            }
+  try {
+    // Select each message container
+    const messageElems = document.querySelectorAll("div.copyable-text");
+    const messages = [];
+
+    messageElems.forEach((msg) => {
+      // Extract meta info from data-pre-plain-text
+      const meta = msg.getAttribute("data-pre-plain-text") || "";
+      // This typically looks like: "[6:27 PM, 7/24/2025] gampi: "
+      const metaMatch = meta.match(/\[(.*?)\]\s(.*?):\s/);
+      const timestamp = metaMatch ? metaMatch[1] : "Unknown time";
+      const sender = metaMatch ? metaMatch[2] : "You/Other";
+
+      // Extract message text
+      const textElem = msg.querySelector("span._ao3e");
+      const text = textElem ? textElem.innerText : "";
+
+      if (text) {
+        messages.push({
+          sender,
+          timestamp,
+          text,
         });
-        return messages;
-    } catch (e) {
-        return [];
-    }
+      }
+    });
+
+    return messages;
+  } catch (e) {
+    console.error("Error scraping messages:", e);
+    return [];
+  }
 }
+
+
 // Add preview functionality
 const previewContainer = document.getElementById("preview-container");
 const previewList = document.getElementById("preview-list");
@@ -75,32 +112,81 @@ const disclaimer = document.getElementById("disclaimer");
 
 let showingPreview = false;
 
-function updatePreview(messages) {
-previewList.innerHTML = "";
-  console.log("Preview messages:", messages); // Add this line
-  
- if (!messages || messages.length === 0) {
-        const li = document.createElement("li");
-        li.textContent = "Nothing to preview";
-        previewList.appendChild(li);
-        previewContainer.classList.remove("hidden");
-    
-        disclaimer.classList.remove("hidden");
-        return;
-    }
 
-const previewMessages = messages.slice(0, 5);
-previewMessages.forEach((msg, idx) => {
-const li = document.createElement("li");
-li.textContent = msg;
-previewList.appendChild(li);
-});
+function updatePreview(messages) {
+  previewList.innerHTML = "";
+
+  // === Extract participants ===
+  const senders = new Set();
+  let totalWords = 0;
+  const wordFrequency = {};
+
+  messages.forEach((msg) => {
+    if (msg.sender) senders.add(msg.sender);
+
+    const words = msg.text.split(/\s+/).filter(Boolean);
+    totalWords += words.length;
+
+    words.forEach((word) => {
+      const cleaned = word.toLowerCase().replace(/[^\w\s]/g, "");
+      if (cleaned.length > 2) {
+        wordFrequency[cleaned] = (wordFrequency[cleaned] || 0) + 1;
+      }
+    });
+  });
+
+  const participants = Array.from(senders).join(" & ");
+  document.getElementById("participant-names").textContent = participants || "N/A";
+  document.getElementById("word-count").textContent = totalWords;
+
+  const topWords = Object.entries(wordFrequency)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([word]) => word)
+    .join(", ");
+  document.getElementById("common-words").textContent = topWords || "N/A";
+
+  // === Sample messages ===
+  const previewMessages = messages.slice(0, 5);
+  previewMessages.forEach((msg) => {
+    const li = document.createElement("li");
+    li.textContent = `${msg.sender || "Someone"}: ${msg.text}`;
+    previewList.appendChild(li);
+  });
 previewContainer.classList.remove("hidden");
-//togglePreviewBtn.classList.remove("hidden");
+  
 togglePreviewBtn.innerHTML = "Hide Preview";
 togglePreviewBtn.disabled = false;
 disclaimer.classList.remove("hidden");
+
 }
+
+// function updatePreview(messages) {
+// previewList.innerHTML = "";
+//   console.log("Preview messages:", messages); // Add this line
+  
+//  if (!messages || messages.length === 0) {
+//         const li = document.createElement("li");
+//         li.textContent = "Nothing to preview";
+//         previewList.appendChild(li);
+//         previewContainer.classList.remove("hidden");
+    
+//         disclaimer.classList.remove("hidden");
+//         return;
+//     }
+
+// const previewMessages = messages.slice(0, 5);
+// previewMessages.forEach((msg, idx) => {
+// const li = document.createElement("li");
+// li.textContent = msg;
+// previewList.appendChild(li);
+// });
+// previewContainer.classList.remove("hidden");
+// //togglePreviewBtn.classList.remove("hidden");
+// togglePreviewBtn.innerHTML = "Hide Preview";
+// togglePreviewBtn.disabled = false;
+// disclaimer.classList.remove("hidden");
+// }
 
 togglePreviewBtn.addEventListener("click", () => {
 showingPreview = !showingPreview;

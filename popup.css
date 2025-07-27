@@ -170,3 +170,18 @@ body.light #toggle-preview-btn {
 body.light #toggle-preview-btn:hover:enabled {
     background: var(--wa-dark-green);
 }
+
+#preview-container p {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+}
+
+#preview-container h4 {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+#preview-list li {
+  padding-left: 0.5rem;
+  margin-bottom: 0.3rem;
+}
