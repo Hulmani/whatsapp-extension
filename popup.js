@@ -23,7 +23,7 @@ const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
    // Add this check here:
     if (!tab || !tab.url || !tab.url.startsWith("https://web.whatsapp.com")) {
         statusDiv.textContent = "Please open WhatsApp Web and select a chat.";
-        syncBtn.disabled = true;
+        syncBtn.disabled = true;themeToggle
         return;
     }
 
@@ -52,23 +52,6 @@ statusDiv.textContent = "Sync to cloud: yet to be implemented.";
 });
 
 // Function to scrape WhatsApp chat messages
-// function scrapeWhatsAppChat() {
-//     try {
-//         // Select all spans with these classes (message text)
-//         const textElems = document.querySelectorAll('span._ao3e.selectable-text.copyable-text');
-//         document.getElementById("status").textContent = `Found ${messageElems.length} messages.`;
-//         const messages = [];
-//         textElems.forEach((elem) => {
-//              if (elem.innerText && elem.innerText.trim() !== "") {
-//                 messages.push(elem.innerText.trim());
-//             }
-//         });
-//         return messages;
-//     } catch (e) {
-//         return [];
-//     }
-// }
-
 function scrapeWhatsAppChat() {
   try {
     // Select each message container
@@ -148,6 +131,13 @@ function updatePreview(messages) {
 
   // === Sample messages ===
   const previewMessages = messages.slice(0, 5);
+  
+  previewMessages.forEach((msg) => {
+    const li = document.createElement("li");
+    li.textContent = `${msg.sender || "Someone"}: ${msg.text}`;
+    previewList.appendChild(li);
+  });
+
   previewMessages.forEach((msg) => {
     const li = document.createElement("li");
     li.textContent = `${msg.sender || "Someone"}: ${msg.text}`;
@@ -160,33 +150,6 @@ togglePreviewBtn.disabled = false;
 disclaimer.classList.remove("hidden");
 
 }
-
-// function updatePreview(messages) {
-// previewList.innerHTML = "";
-//   console.log("Preview messages:", messages); // Add this line
-  
-//  if (!messages || messages.length === 0) {
-//         const li = document.createElement("li");
-//         li.textContent = "Nothing to preview";
-//         previewList.appendChild(li);
-//         previewContainer.classList.remove("hidden");
-    
-//         disclaimer.classList.remove("hidden");
-//         return;
-//     }
-
-// const previewMessages = messages.slice(0, 5);
-// previewMessages.forEach((msg, idx) => {
-// const li = document.createElement("li");
-// li.textContent = msg;
-// previewList.appendChild(li);
-// });
-// previewContainer.classList.remove("hidden");
-// //togglePreviewBtn.classList.remove("hidden");
-// togglePreviewBtn.innerHTML = "Hide Preview";
-// togglePreviewBtn.disabled = false;
-// disclaimer.classList.remove("hidden");
-// }
 
 togglePreviewBtn.addEventListener("click", () => {
 showingPreview = !showingPreview;

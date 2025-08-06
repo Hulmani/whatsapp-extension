@@ -1,0 +1,187 @@
+:root {
+  --wa-green: #25d366;
+  --wa-dark-green: #075e54;
+  --wa-light-green: #dcf8c6;
+  --wa-bg-dark: #111b21;
+  --wa-bg-light: #ffffff;
+  --wa-grey: #ece5dd;
+  --wa-blue: #34b7f1;
+  --wa-text-dark: #e9edef;
+  --wa-text-light: #222e35;
+  --wa-accent: #128c7e;
+  --wa-accent-hover: #075e54;
+  --wa-border: #2a3942;
+  --wa-shadow: 0 8px 36px rgba(7,94,84,0.2);
+}
+
+body, .popup-root {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--wa-bg-dark);
+  color: var(--wa-text-dark);
+  margin: 0;
+  padding: 20px 26px;
+  min-width: 440px;       /* wider popup */
+  min-height: 460px;      /* taller popup */
+  border-radius: 18px;
+  box-shadow: var(--wa-shadow);
+  overflow: hidden;
+  font-size: 1.05rem;     /* larger default text */
+}
+
+.popup-root.light {
+  background: var(--wa-bg-light);
+  color: var(--wa-text-light);
+}
+
+h1, h2, h3 {
+  color: var(--wa-green);
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+}
+
+#status {
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--wa-grey);
+  border-radius: 8px;
+  color: var(--wa-accent);
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.07);
+}
+
+.popup-root:not(.light) #status {
+  background: #1e2c33;
+  color: var(--wa-green);
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(90deg, var(--wa-green) 0%, var(--wa-accent) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 26px;         /* bigger buttons */
+  font-size: 1.1rem;
+  margin-right: 14px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.08);
+}
+
+button:disabled {
+  background: #b2dfdb;
+  color: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button:hover:enabled {
+  background: linear-gradient(90deg, var(--wa-accent-hover) 0%, var(--wa-green) 100%);
+  box-shadow: 0 4px 16px rgba(37,211,102,0.13);
+}
+
+/* Preview container */
+#preview-container {
+  background: #182229;
+  border-radius: 12px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 12px rgba(37,211,102,0.07);
+  color: var(--wa-text-dark);
+  max-height: 220px;          /* limit height */
+  overflow-y: auto;           /* scrollable if many messages */
+}
+
+.popup-root.light #preview-container {
+  background: var(--wa-light-green);
+  color: var(--wa-text-light);
+}
+
+/* Preview list */
+.preview-list {
+  list-style-type: decimal;
+  padding-left: 1.3rem;
+  margin-top: 0.5rem;
+  color: inherit;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+}
+
+#preview-list li {
+  padding-left: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+/* Disclaimer */
+.disclaimer {
+  font-size: 1rem;
+  color: #8ecae6;
+  margin-top: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.2px;
+}
+
+.popup-root.light .disclaimer {
+  color: #2563eb;
+}
+
+/* Toggle preview button */
+#toggle-preview-btn {
+  background: var(--wa-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 26px;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 0;
+  box-shadow: 0 2px 8px rgba(18,140,126,0.13);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+#toggle-preview-btn:disabled {
+  background: #b2dfdb;
+  color: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#toggle-preview-btn:hover:enabled {
+  background: var(--wa-green);
+  box-shadow: 0 4px 16px rgba(37,211,102,0.18);
+}
+
+.popup-root.light #toggle-preview-btn {
+  background: var(--wa-accent);
+  color: #fff;
+  border: none;
+}
+
+.popup-root.light #toggle-preview-btn:hover:enabled {
+  background: var(--wa-dark-green);
+}
+
+/* .analysis-card {
+  background: var(--wa-light-green);
+  color: var(--wa-text-light);
+  padding: 14px;
+  margin-top: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(37, 211, 102, 0.08);
+  font-size: 0.95rem;
+}
+
+body.dark .analysis-card {
+  background: #182229;
+  color: var(--wa-text-dark);
+}
+
+.analysis-card h3 {
+  margin-top: 0;
+  color: var(--wa-green);
+} */
